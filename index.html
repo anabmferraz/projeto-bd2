@@ -48,6 +48,11 @@
               <label for="data" class="form-label">Data e Horário</label>
               <input type="datetime-local" name="data" id="data" class="form-control">
             </div>
+            <div class="col-12">
+              <div id="mensagemErro" class="alert alert-danger d-none" role= "alert">
+                Mensagem de Erro!
+              </div>
+            </div>
             <div class="col-6"><button type="button" class="btn btn-danger w-100" id="buttonCancelarAgendamento">Cancelar</button></div>
             <div class="col-6"><button type="submit" class="btn btn-primary w-100">Salvar</button></div>
           </div>
@@ -68,14 +73,15 @@
       <div class="col-12">
         <table class="table">
           <thead>
-            <th scope="col">Data e Hora</th>
-            <th scope="col">CPF</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Tipo de Procedimento</th>
-            <th scope="col">Profissional</th>
+            <tr>
+              <th scope="col">Data e Hora</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Tipo de Procedimento</th>
+              <th scope="col">Profissional</th>
+            </tr>
           </thead>
-          <tbody>
-            <td colspan="3">Nenhum agendamento</td>
+          <tbody id="tabelaAgenda">
           </tbody>
         </table>
       </div>
