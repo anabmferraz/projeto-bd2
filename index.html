@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,14 @@
 <body>
     <h2>Agendamento</h2>
     <form action="processar_agendamento.php" method="post">
+
+      <!-- Campo de Horario e Data -->
+    <label for="data">Data do Agendamento:</label>
+    <input type="date" id="data" name="data" required><br>
+
+      <label for="horario">Horário do Agendamento:</label>
+      <input type="time" id="horario" name="horario" required><br>
+
       <!-- Campos do Cliente -->
       <label for="cpf_cliente">CPF do Cliente:</label>
       <input type="text" id="cpf_cliente" name="cpf_cliente" required><br>
@@ -41,6 +49,8 @@
 <table id="tabelaAgendamentos">
     <thead>
       <tr>
+        <th>Data</th>
+        <th>Horario</th>
         <th>CPF Cliente</th>
         <th>Nome Cliente</th>
         <th>Telefone Cliente</th>
