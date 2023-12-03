@@ -87,9 +87,6 @@ BEFORE DELETE ON Agendamento
 FOR EACH ROW
 EXECUTE FUNCTION backup_agendamento();
 
--- Exclua um registro da tabela Agendamento (substitua o valor do horário_agendamento conforme necessário)
-DELETE FROM Agendamento WHERE horario_agendamento = '14:30';
-
 -- Após a exclusão, consulte a tabela de backup para verificar se os dados foram registrados
 SELECT * FROM Agendamento_Backup;
 
@@ -150,13 +147,6 @@ GRANT SELECT, INSERT, DELETE ON funcionario_agendamento_view TO funcionario_user
 -- Selecionar dados
 SELECT * FROM funcionario_agendamento_view;
 
--- Inserir dados
-INSERT INTO funcionario_agendamento_view (horario_agendamento, cpf_cliente, cpf_profissional, id_procedimento)
-VALUES ('19:30', '77788899900', '12121212121', 2);
-
--- Excluir dados
-DELETE FROM funcionario_agendamento_view WHERE horario_agendamento = '19:30';
-
 
 GRANT SELECT, INSERT, DELETE ON TABLE Agendamento TO funcionario_user;
 GRANT INSERT ON TABLE Cliente TO funcionario_user;
@@ -164,8 +154,6 @@ CREATE OR REPLACE VIEW funcionario_cliente_view AS
 SELECT * FROM Cliente;
 
 GRANT SELECT, INSERT ON funcionario_cliente_view TO funcionario_user;
--- Inserir novo cliente
-INSERT INTO funcionario_cliente_view (cpf_cliente, nome_cliente, telefone_cliente)
-VALUES ('77788899900', 'Novo Cliente', '123456789');
+
 
 
