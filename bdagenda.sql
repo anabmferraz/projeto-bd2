@@ -101,11 +101,11 @@ CREATE ROLE funcionario_user WITH LOGIN PASSWORD 'funcionario123';
 GRANT SELECT ON TABLE Agendamento TO funcionario_user;
 
 -- Criação da visão
-CREATE VIEW ViewProcedimentosAgendados AS
+CREATE OR REPLACE VIEW ViewProcedimentosAgendados AS
 SELECT
     Agendamento.horario_agendamento,
-    Cliente.nome_cliente,
     Cliente.cpf_cliente,
+    Cliente.nome_cliente,
     Profissional.nome_profissional,
     Procedimento.nome_procedimento
 FROM
@@ -113,6 +113,7 @@ FROM
     JOIN Cliente ON Agendamento.cpf_cliente = Cliente.cpf_cliente
     JOIN Profissional ON Agendamento.cpf_profissional = Profissional.cpf_profissional
     JOIN Procedimento ON Agendamento.id_procedimento = Procedimento.id_procedimento;
+
 
 -- Criação de uma trigger para a inserção na view ViewProcedimentosAgendados: 
 CREATE OR REPLACE FUNCTION insert_proced_agendados()
