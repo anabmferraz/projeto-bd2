@@ -1,24 +1,24 @@
 CREATE TABLE Cliente (
-    cpf_cliente VARCHAR(11) PRIMARY KEY,
-    nome_cliente VARCHAR(100) NOT NULL,
-    telefone_cliente VARCHAR(15) NOT NULL
+	cpf_cliente VARCHAR(11) PRIMARY KEY,
+	nome_cliente VARCHAR(100) NOT NULL,
+	telefone_cliente VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE Profissional (
-    cpf_profissional VARCHAR(11) PRIMARY KEY,
-    nome_profissional VARCHAR(100) NOT NULL
+	cpf_profissional VARCHAR(11) PRIMARY KEY,
+	nome_profissional VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Procedimento (
-    id_procedimento INT PRIMARY KEY,
-    nome_procedimento VARCHAR(100) NOT NULL
+	id_procedimento INT PRIMARY KEY,
+	nome_procedimento VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Agendamento (
-    horario_agendamento TIMESTAMP NOT NULL,
-    cpf_cliente VARCHAR(11) REFERENCES Cliente(cpf_cliente),
-    cpf_profissional VARCHAR(11) REFERENCES Profissional(cpf_profissional),
-    id_procedimento INTEGER REFERENCES Procedimento(id_procedimento)
+	horario_agendamento TIMESTAMP NOT NULL,
+	cpf_cliente VARCHAR(11) REFERENCES Cliente(cpf_cliente),
+	cpf_profissional VARCHAR(11) REFERENCES Profissional(cpf_profissional),
+	id_procedimento INTEGER REFERENCES Procedimento(id_procedimento)
 );
 
 INSERT INTO Cliente VALUES ('11122233344', 'Ana', '123456789');
@@ -45,80 +45,71 @@ INSERT INTO Agendamento VALUES ('2023-12-04 15:30', '33344455566', '14141414141'
 INSERT INTO Agendamento VALUES ('2023-12-04 17:00', '44455566677', '15151515151', 4);
 INSERT INTO Agendamento VALUES ('2023-12-04 18:00', '55566677788', '16161616161', 5);
 
--- Criação da tabela de backup
-CREATE TABLE Agendamento_Backup (
-    id_backup SERIAL PRIMARY KEY,
-    horario_agendamento_backup TIME NOT NULL,
-    cpf_cliente_backup VARCHAR(11),
-    cpf_profissional_backup VARCHAR(11),
-    id_procedimento_backup INTEGER,
-    usuario_que_apagou VARCHAR(100) NOT NULL,
-    data_exclusao TIMESTAMP NOT NULL
-);
-
--- Criação da função da trigger
-CREATE OR REPLACE FUNCTION backup_agendamento()
-RETURNS TRIGGER AS $$
+-- Criação da função para a transação
+CREATE OR REPLACE FUNCTION backup_agendamento() RETURNS TRIGGER AS $$
 BEGIN
-    -- Insere os dados da linha excluída na tabela de backup
-    INSERT INTO Agendamento_Backup (
-        horario_agendamento_backup,
-        cpf_cliente_backup,
-        cpf_profissional_backup,
-        id_procedimento_backup,
-        usuario_que_apagou,
-        data_exclusao
-    ) VALUES (
-        OLD.horario_agendamento,
-        OLD.cpf_cliente,
-        OLD.cpf_profissional,
-        OLD.id_procedimento,
-        current_user, -- Captura o usuário que está realizando a exclusão
-        current_timestamp -- Captura a data e hora da exclusão
-    );
-    
-    RETURN OLD;
+	-- Inserir dados deletados na tabela de backup
+	INSERT INTO Agendamento_Backup (horario_agendamento_backup, cpf_cliente_backup, cpf_profissional_backup, id_procedimento_backup,
+    usuario_que_apagou, data_exclusao)
+	VALUES (OLD.horario_agendamento, OLD.cpf_cliente, OLD.cpf_profissional, OLD.id_procedimento, current_user, -- Captura o usuário que está realizando a exclusão
+	current_timestamp);
+	RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
--- Associa a trigger à tabela Agendamento
+CREATE OR REPLACE FUNCTION backup_transaction()
+RETURNS TRIGGER AS $$
+BEGIN
+	-- Chamar a função de backup_agendamento usando EXECUTE FUNCTION
+	EXECUTE FUNCTION backup_agendamento;
+	-- Deletar o registro da tabela Agendamento
+	DELETE FROM Agendamento WHERE horario_agendamento = OLD.horario_agendamento;
+	-- Commit da transação
+	RETURN NULL; -- Alterado para NULL, pois a função é chamada como gatilho DELETE e não requer um valor de retorno
+END;
+$$ LANGUAGE plpgsql;
+
+-- Criação da trigger para chamar a função backup_transaction() antes de um delete na tabela Agendamento
 CREATE TRIGGER agendamento_backup_trigger
 BEFORE DELETE ON Agendamento
 FOR EACH ROW
-EXECUTE FUNCTION backup_agendamento();
+EXECUTE FUNCTION backup_transaction();
 
--- Após a exclusão, consulte a tabela de backup para verificar se os dados foram registrados
-SELECT * FROM Agendamento_Backup;
+CREATE INDEX idx_agendamento_cpf_cliente ON Agendamento(cpf_cliente);
+CREATE INDEX idx_agendamento_cpf_profissional ON Agendamento(cpf_profissional);
+CREATE INDEX idx_agendamento_id_procedimento ON Agendamento(id_procedimento);
+CREATE INDEX idx_agendamento_horario_agendamento ON Agendamento(horario_agendamento);
+CREATE INDEX idx_cliente_cpf_cliente ON Cliente(cpf_cliente);
+CREATE INDEX idx_profissional_cpf_profissional ON Profissional(cpf_profissional);
+CREATE INDEX idx_procedimento_id_procedimento ON Procedimento(id_procedimento);
 
-CREATE INDEX idx_cpf_cliente ON Cliente(cpf_cliente);
-CREATE INDEX idx_cpf_profissional ON Profissional(cpf_profissional);
-CREATE INDEX idx_id_procedimento ON Procedimento(id_procedimento);
-CREATE INDEX idx_fk_cpf_cliente ON Agendamento(cpf_cliente);
-
--- Criação do usuário
+--criação do papel do funcionário
 CREATE ROLE funcionario_user WITH LOGIN PASSWORD 'funcionario123';
--- Concedendo permissão DE LEITURA NAS TABELAS, SELECT na tabela Agendamento, Cliente, Profissional, Procedimento
+
 GRANT SELECT ON TABLE Agendamento TO funcionario_user;
 GRANT SELECT ON TABLE Cliente TO funcionario_user;
 GRANT SELECT ON TABLE Profissional TO funcionario_user;
 GRANT SELECT ON TABLE Procedimento TO funcionario_user;
 
--- Criação da visão
+--criação do papel do cliente
+CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
+
 CREATE OR REPLACE VIEW ViewProcedimentosAgendados AS
 SELECT
-    Agendamento.horario_agendamento,
-    Cliente.cpf_cliente,
-    Cliente.nome_cliente,
-    Profissional.nome_profissional,
-    Procedimento.nome_procedimento
+	Agendamento.horario_agendamento,
+	Cliente.cpf_cliente,
+	Cliente.nome_cliente,
+    Cliente.telefone_cliente,
+    Procedimento.id_procedimento,
+    Procedimento.nome_procedimento,
+    Profissional.cpf_profissional,
+	Profissional.nome_profissional
 FROM
-    Agendamento
-    JOIN Cliente ON Agendamento.cpf_cliente = Cliente.cpf_cliente
-    JOIN Profissional ON Agendamento.cpf_profissional = Profissional.cpf_profissional
-    JOIN Procedimento ON Agendamento.id_procedimento = Procedimento.id_procedimento;
+	Agendamento
+	JOIN Cliente ON Agendamento.cpf_cliente = Cliente.cpf_cliente
+	JOIN Profissional ON Agendamento.cpf_profissional = Profissional.cpf_profissional
+	JOIN Procedimento ON Agendamento.id_procedimento = Procedimento.id_procedimento;
 
-
--- Criação de uma trigger para a inserção na view ViewProcedimentosAgendados: 
 CREATE OR REPLACE FUNCTION insert_proced_agendados()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -129,9 +120,9 @@ BEGIN
         id_procedimento
     ) VALUES (
         NEW.horario_agendamento,
-        (SELECT cpf_cliente FROM Cliente WHERE nome_cliente = NEW.nome_cliente),
-        (SELECT cpf_profissional FROM Profissional WHERE nome_profissional = NEW.nome_profissional),
-        (SELECT id_procedimento FROM Procedimento WHERE nome_procedimento = NEW.nome_procedimento)
+        (SELECT cpf_cliente FROM Cliente WHERE nome_cliente = NEW.nome_cliente LIMIT 1),
+        (SELECT cpf_profissional FROM Profissional WHERE nome_profissional = NEW.nome_profissional LIMIT 1),
+        (SELECT id_procedimento FROM Procedimento WHERE nome_procedimento = NEW.nome_procedimento LIMIT 1)
     );
     
     RETURN NEW;
@@ -144,18 +135,17 @@ INSTEAD OF INSERT ON ViewProcedimentosAgendados
 FOR EACH ROW
 EXECUTE FUNCTION insert_proced_agendados();
 
+--Atribuição de privilégio de excluir da tabela agendamento
+GRANT DELETE ON TABLE Agendamento TO funcionario_user;
+
 -- Atribuição de privilégios de inserir na view ao usuário funcionario
 GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
+
+--atribuição de privilégios para selecionar a view
+GRANT SELECT ON ViewProcedimentosAgendados TO cliente_user;
 
 --Atribuição de privilégio de excluir da tabela agendamento
 GRANT DELETE ON TABLE Agendamento TO funcionario_user;
 
 --Atribuição de privilégio de executar a trigger de backup
-GRANT EXECUTE ON FUNCTION agendamento_backup_trigger() TO funcionario_user;
-
---Criação do user cliente (de apenas leitura)
-CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
-GRANT SELECT ON ViewProcedimentosAgendados TO cliente_user;
-
-
-
+GRANT EXECUTE ON FUNCTION ViewProcedimentosAgendados TO funcionario_user;
