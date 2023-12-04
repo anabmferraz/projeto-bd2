@@ -2,6 +2,8 @@
 SALVAR DADOS A PARTIR DO AGENDAMENTO
 */
 
+var agendamento = [];
+
 //Função chamada ao enviar o formulário
 function salvarDados(event) {
   event.preventDefault();
@@ -17,7 +19,7 @@ function salvarDados(event) {
   var nomeProfissional = document.getElementById('nomeProfissional').value;
 
   //Criar um objeto com os dados
-  var dados = {
+  var agendamento = {
       dataHorario: dataHorario,
       cpfCliente: cpfCliente,
       nomeCliente: nomeCliente,
@@ -28,14 +30,14 @@ function salvarDados(event) {
       nomeProfissional: nomeProfissional
   };
 
-  console.log('Dados a serem salvos:', dados);
-  //Limpar os campos do formulário após salvar 
-  document.getElementById('formulario').reset();
+  agendamento.push(agendamento);
+
+  adicionarLinhaAgendamento(agendamento);
+
+  document.getElementById("formulario").reset();
 }
 
-//Adicionar um ouvinte de evento ao formulário
-document.getElementById('formulario').addEventListener('submit', salvarDados);
-
+document.getElementById("formulario").addEventListener("submit", salvarDados);
 
 /*
 TABELA DE AGENDAMENTOS
@@ -56,18 +58,18 @@ function adicionarLinhaAgendamento(event) {
 
   //Criar uma nova linha para a tabela de Procedimentos Agendados
   var tableBody = document.getElementById('procedimentosAgendados').getElementsByTagName('tbody')[0];
-  var newRow = tableBody.insertRow();
 
   //Adicionar células com os dados
   newRow.innerHTML = `
-      <td>${dataHorario}</td>
-      <td>${cpfCliente}</td>
-      <td>${nomeCliente}</td>
-      <td>${telefoneCliente}</td>
-      <td>${idProcedimento}</td>
-      <td>${nomeProcedimento}</td>
-      <td>${nomeProfissional}</td>
-      <td>${cpfProfissional}</td>
+      <td>${agendamento.dataHorario}</td>
+      <td>${agendamento.cpfCliente}</td>
+      <td>${agendamento.nomeCliente}</td>
+      <td>${agendamento.telefoneCliente}</td>
+      <td>${agendamento.idProcedimento}</td>
+      <td>${agendamento.nomeProcedimento}</td>
+      <td>${agendamento.cpfProfissional}</td>
+      <td>${agendamento.nomeProfissional}</td>
+      <td><button onclick="excluirAgendamento(this)">Excluir</button></td>
   `;
 
   //Limpar os campos do formulário após salvar
@@ -126,7 +128,6 @@ function excluirLinha(btn) {
 //Adicionar um ouvinte de evento ao formulário
 document.getElementById('formulario').addEventListener('submit', salvarDados);
 
-
 /*
 TABELA DE BACKUP
 */
@@ -151,16 +152,17 @@ function excluirLinha(btn) {
 
 //Função para o login do cliente
 function entrarCliente() {
-  var usernameConsulta = document.getElementById('usernameClienteConsulta').value;
-  var senhaConsulta = document.getElementById('senhaPessoaConsulta').value;
+  var usernameCliente = document.getElementById('usernameClienteConsulta').value;
+  var senhaCliente = document.getElementById('senhaPessoaConsulta').value;
+  var clienteAutenticado = autenticarClienteNoBackend(usernameCliente, senhaCliente);
 
-  //Simulação de autenticação (substitua pela lógica real)
-  if (senhaConsulta === '10') {
-    //Filtrar agendamentos com base no username do cliente
-    var agendamentosFiltrados = agendamentos.filter(function (agendamento) {
-      return agendamento.usernameCliente === usernameConsulta;
-    });
-
+  if (clienteAutenticado) {
+    console.log("Cliente autenticado com sucesso!");
+    entrarComoCliente();
+  } else {
+    console.log("Usuário ou senha incorretos para o cliente.");
+  }
+}
     //Preencher a tabela de agendamentos do cliente
     var tableCliente = document.querySelector('#agendamentosCliente tbody');
     tableCliente.innerHTML = '';
@@ -175,10 +177,13 @@ function entrarCliente() {
           <td>${agendamento.idProcedimento}</td>
           <td>${agendamento.cpfProfissional}</td>
       `;
-    }
-  } else {
-    alert('Nome de usuário ou senha incorretos.');
+
   }
+
+function autenticarClienteNoBackend(usernameCliente, senhaCliente) {
+  // Simulação da autenticação no backend (substitua com sua lógica real)
+  // Retorna true se o cliente for autenticado, false caso contrário
+  return true;
 }
 
 //Função para excluir a linha e registrar a data de exclusão
@@ -214,32 +219,73 @@ function entrarCliente() {
     row.parentNode.removeChild(row);
   }
 
-//Função para esconder elementos
-function esconderElemento(elementoId) {
-  document.getElementById(elementoId).style.display = 'none';
-}
-
-//Função para mostrar elementos
-function mostrarElemento(elementoId) {
-  document.getElementById(elementoId).style.display = 'block';
-}
-
 
 //Função para fazer login do funcionário
 function entrarFuncionario() {
-  var usernameConsulta = document.getElementById('usernameFuncionarioConsulta').value;
-  var senhaConsulta = document.getElementById('senhaFuncionarioConsulta').value;
-
-  //Simulação de autenticação (substitua pela lógica real)
-  if (senhaConsulta === 'senhaDoFuncionario') {
-    //Lógica para o login do funcionário (substitua conforme necessário)
-    alert('Login do Funcionário bem-sucedido!');
-    //Exemplo: redirecionar para uma página de administração, etc.
+  var usernameFuncionario = document.getElementById("usernameFuncionarioAutenticacao").value;
+  var senhaFuncionario = document.getElementById("senhaFuncionarioAutenticacao").value;
+  var funcionarioAutenticado = autenticarFuncionarioNoBackend(usernameFuncionario, senhaFuncionario);
+  
+  //Simulação de autenticação 
+  if (funcionarioAutenticado) {
+    console.log("Funcionário autenticado com sucesso!");
+    entrarComoFuncionario();
   } else {
-    alert('Nome de usuário ou senha incorretos para o funcionário.');
+    console.log("Usuário ou senha incorretos para o funcionário.");
   }
 }
 
+function autenticarFuncionarioNoBackend(usernameFuncionario, senhaFuncionario) {
+  // Simulação da autenticação no backend (substitua com sua lógica real)
+  // Retorna true se o funcionário for autenticado, false caso contrário
+  return true;
+}
+
+/*
+  LÓGICA PARA MOSTRAR/ESCONDER ELEMENTOS
+*/
+
+function mostrarElemento(secaoPessoa) {
+  document.getElementById(secaoPessoa).style.display = "block";
+}
+
+function esconderElemento(secaoPessoa) {
+  document.getElementById(secaoPessoa).style.display = "none";
+}
+
+/*
+  LÓGICA DE ENTRAR COMO CLIENTE OU FUNCIONÁRIO
+*/
+
+function entrarComoCliente() {
+  mostrarElemento("procedimentosAgendados");
+  esconderElemento("secaoPessoa");
+}
+
+function entrarComoFuncionario() {
+  mostrarElemento("secaoPessoa");
+  esconderElemento("procedimentosAgendados");
+}
+
+function entrar() {
+  var usernameCliente = document.getElementById(
+    "usernameClienteConsulta"
+  ).value;
+  var senhaCliente = document.getElementById("senhaPessoaConsulta").value;
+
+  var clienteAutenticado = autenticarClienteNoBackend(
+    usernameCliente,
+    senhaCliente
+  );
+
+  if (clienteAutenticado) {
+    console.log("Cliente autenticado com sucesso!");
+    mostrarElemento("secaoAgendamento");
+    esconderElemento("secaoPessoa");
+  } else {
+    console.log("Usuário ou senha incorretos para o cliente.");
+  }
+}
 
 /*!ESSA PARTE SERVE PARA ESCONDER AS TABELAS DO FUNCIONARIO
 //Função chamada ao clicar no botão Entrar
