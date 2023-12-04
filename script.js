@@ -8,11 +8,9 @@ document.getElementById("botao").addEventListener("click", function (event) {
   var nomeProcedimento = document.getElementById("nome_procedimento").value;
   var cpfProfissional = document.getElementById("cpf_profissional").value;
   var nomeProfissional = document.getElementById("nome_profissional").value;
-  var horario = document.getElementById("horario").value;
   var data = document.getElementById("data").value;
 
   var agendamento = {
-    horario: horario,
     data: data,
     cpfCliente: cpfCliente,
     nomeCliente: nomeCliente,
