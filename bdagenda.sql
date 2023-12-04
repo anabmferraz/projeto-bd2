@@ -139,7 +139,7 @@ INSERT INTO Agendamento (
 );
 
 
-CREATE ROLE funcionario_user WITH PASSWORD 'funcionario123';
+CREATE USER funcionario_user WITH PASSWORD 'funcionario123';
 
 CREATE OR REPLACE VIEW funcionario_agendamento_view AS
 SELECT * FROM Agendamento;
