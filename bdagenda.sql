@@ -99,17 +99,6 @@ CREATE USER cliente_user WITH PASSWORD 'cliente123';
 GRANT SELECT ON TABLE Agendamento TO cliente_user;
 
 -- Criação da visão
-CREATE VIEW ViewAgendamento AS
-SELECT
-    Agendamento.horario_agendamento,
-    Cliente.nome_cliente,
-    Profissional.nome_profissional,
-    Agendamento.id_procedimento
-FROM
-    Agendamento
-    JOIN Cliente ON Agendamento.cpf_cliente = Cliente.cpf_cliente
-    JOIN Profissional ON Agendamento.cpf_profissional = Profissional.cpf_profissional;
-
 CREATE VIEW ViewProcedimentosAgendados AS
 SELECT
     Agendamento.horario_agendamento,
