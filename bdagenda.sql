@@ -98,7 +98,7 @@ CREATE INDEX idx_fk_cpf_cliente ON Agendamento(cpf_cliente);
 -- Criação do usuário
 CREATE ROLE funcionario_user WITH LOGIN PASSWORD 'funcionario123';
 -- Concedendo permissão DE LEITURA NAS TABELAS
-– SELECT na tabela Agendamento, Cliente, Profissional, Procedimento
+SELECT na tabela Agendamento, Cliente, Profissional, Procedimento
 GRANT SELECT ON TABLE Agendamento TO funcionario_user;
 GRANT SELECT ON TABLE Cliente TO funcionario_user;
 GRANT SELECT ON TABLE Profissional TO funcionario_user;
