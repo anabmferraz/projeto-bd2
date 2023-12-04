@@ -15,7 +15,7 @@ CREATE TABLE Procedimento (
 );
 
 CREATE TABLE Agendamento (
-    horario_agendamento TIMESTAMP NOT NULL,
+    horario_agendamento TIMETAMP NOT NULL,
     cpf_cliente VARCHAR(11) REFERENCES Cliente(cpf_cliente),
     cpf_profissional VARCHAR(11) REFERENCES Profissional(cpf_profissional),
     id_procedimento INTEGER REFERENCES Procedimento(id_procedimento)
@@ -95,7 +95,8 @@ CREATE INDEX idx_cpf_profissional ON Profissional(cpf_profissional);
 CREATE INDEX idx_id_procedimento ON Procedimento(id_procedimento);
 CREATE INDEX idx_fk_cpf_cliente ON Agendamento(cpf_cliente);
 
-CREATE USER cliente_user WITH PASSWORD 'cliente123';
+--Criação do usuario 
+CREATE USER funcionario_user WITH PASSWORD 'funcionario123';
 GRANT SELECT ON TABLE Agendamento TO cliente_user;
 
 -- Criação da visão
@@ -111,24 +112,36 @@ FROM
     JOIN Profissional ON Agendamento.cpf_profissional = Profissional.cpf_profissional
     JOIN Procedimento ON Agendamento.id_procedimento = Procedimento.id_procedimento;
 
+-- Criação de uma trigger para a inserção na view ViewProcedimentosAgendados: 
+CREATE OR REPLACE FUNCTION insert_proced_agendados()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Agendamento (
+        horario_agendamento,
+        cpf_cliente,
+        cpf_profissional,
+        id_procedimento
+    ) VALUES (
+        NEW.horario_agendamento,
+        (SELECT cpf_cliente FROM Cliente WHERE nome_cliente = NEW.nome_cliente),
+        (SELECT cpf_profissional FROM Profissional WHERE nome_profissional = NEW.nome_profissional),
+        (SELECT id_procedimento FROM Procedimento WHERE nome_procedimento = NEW.nome_procedimento)
+    );
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-CREATE RULE insert_procedimentos_agendados_rule AS
-ON INSERT TO ViewProcedimentosAgendados
-DO INSTEAD
-INSERT INTO Agendamento (
-    horario_agendamento,
-    cpf_cliente,
-    cpf_profissional,
-    id_procedimento
-) VALUES (
-    NEW.horario_agendamento,
-    (SELECT cpf_cliente FROM Cliente WHERE nome_cliente = NEW.nome_cliente),
-    (SELECT cpf_profissional FROM Profissional WHERE nome_profissional = NEW.nome_profissional),
-    (SELECT id_procedimento FROM Procedimento WHERE nome_procedimento = NEW.nome_procedimento)
-);
+-- Criação da trigger associada à tabela
+CREATE TRIGGER insert_proced_agendados_trigger
+INSTEAD OF INSERT ON ViewProcedimentosAgendados
+FOR EACH ROW
+EXECUTE FUNCTION insert_procedimentos_agendados_function();
 
+-- Atribuição de privilégios ao usuário funcionario
+GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
 
-CREATE USER funcionario_user WITH PASSWORD 'funcionario123';
+CREATE ROLE funcionario_user WITH PASSWORD 'funcionario123';
 
 CREATE OR REPLACE VIEW funcionario_agendamento_view AS
 SELECT * FROM Agendamento;
