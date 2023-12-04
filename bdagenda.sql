@@ -149,3 +149,8 @@ GRANT DELETE ON TABLE Agendamento TO funcionario_user;
 
 --Atribuição de privilégio de executar a trigger de backup
 GRANT EXECUTE ON FUNCTION ViewProcedimentosAgendados TO funcionario_user;
+
+GRANT INSERT, DELETE ON TABLE Cliente TO funcionario_user;
+GRANT INSERT, DELETE ON TABLE Profissional TO funcionario_user;
+GRANT INSERT, DELETE ON TABLE Procedimento TO funcionario_user;
+
