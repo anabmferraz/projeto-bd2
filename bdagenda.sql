@@ -15,7 +15,7 @@ CREATE TABLE Procedimento (
 );
 
 CREATE TABLE Agendamento (
-    horario_agendamento TIME NOT NULL,
+    horario_agendamento TIMETAMP NOT NULL,
     cpf_cliente VARCHAR(11) REFERENCES Cliente(cpf_cliente),
     cpf_profissional VARCHAR(11) REFERENCES Profissional(cpf_profissional),
     id_procedimento INTEGER REFERENCES Procedimento(id_procedimento)
@@ -39,11 +39,11 @@ INSERT INTO Procedimento VALUES (3, 'Sobrancelha');
 INSERT INTO Procedimento VALUES (4, 'Corte cabelo');
 INSERT INTO Procedimento VALUES (5, 'Unhas');
 
-INSERT INTO Agendamento VALUES ('12:00', '11122233344', '12121212121', 1);
-INSERT INTO Agendamento VALUES ('14:30', '22233344455', '13131313131', 2);
-INSERT INTO Agendamento VALUES ('15:30', '33344455566', '14141414141', 3);
-INSERT INTO Agendamento VALUES ('17:00', '44455566677', '15151515151', 4);
-INSERT INTO Agendamento VALUES ('18:00', '55566677788', '16161616161', 5);
+INSERT INTO Agendamento VALUES ('2023-12-04 12:00', '11122233344', '12121212121', 1);
+INSERT INTO Agendamento VALUES ('2023-12-04 14:30', '22233344455', '13131313131', 2);
+INSERT INTO Agendamento VALUES ('2023-12-04 15:30', '33344455566', '14141414141', 3);
+INSERT INTO Agendamento VALUES ('2023-12-04 17:00', '44455566677', '15151515151', 4);
+INSERT INTO Agendamento VALUES ('2023-12-04 18:00', '55566677788', '16161616161', 5);
 
 -- Criação da tabela de backup
 CREATE TABLE Agendamento_Backup (
