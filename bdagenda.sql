@@ -56,7 +56,7 @@ CREATE TABLE Agendamento_Backup (
     data_exclusao TIMESTAMP NOT NULL
 );
 
--- Criação da trigger
+-- Criação da função da trigger
 CREATE OR REPLACE FUNCTION backup_agendamento()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -95,9 +95,10 @@ CREATE INDEX idx_cpf_profissional ON Profissional(cpf_profissional);
 CREATE INDEX idx_id_procedimento ON Procedimento(id_procedimento);
 CREATE INDEX idx_fk_cpf_cliente ON Agendamento(cpf_cliente);
 
---Criação do usuario 
-CREATE USER funcionario_user WITH PASSWORD 'funcionario123';
-GRANT SELECT ON TABLE Agendamento TO cliente_user;
+-- Criação do usuário
+CREATE ROLE funcionario_user WITH LOGIN PASSWORD 'funcionario123';
+-- Concedendo permissão SELECT na tabela Agendamento
+GRANT SELECT ON TABLE Agendamento TO funcionario_user;
 
 -- Criação da visão
 CREATE VIEW ViewProcedimentosAgendados AS
@@ -136,15 +137,16 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER insert_proced_agendados_trigger
 INSTEAD OF INSERT ON ViewProcedimentosAgendados
 FOR EACH ROW
-EXECUTE FUNCTION insert_procedimentos_agendados_function();
+EXECUTE FUNCTION insert_proced_agendados();
 
 -- Atribuição de privilégios ao usuário funcionario
-GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
+GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario;
 
 CREATE ROLE funcionario_user WITH PASSWORD 'funcionario123';
 
 CREATE OR REPLACE VIEW funcionario_agendamento_view AS
 SELECT * FROM Agendamento;
+
 GRANT SELECT, INSERT, DELETE ON funcionario_agendamento_view TO funcionario_user;
 -- Selecionar dados
 SELECT * FROM funcionario_agendamento_view;
