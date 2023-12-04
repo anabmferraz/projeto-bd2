@@ -142,15 +142,11 @@ EXECUTE FUNCTION insert_proced_agendados();
 -- Atribuição de privilégios ao usuário funcionario
 GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario;
 
-CREATE ROLE funcionario_user WITH PASSWORD 'funcionario123';
+CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
 
-CREATE OR REPLACE VIEW funcionario_agendamento_view AS
-SELECT * FROM Agendamento;
-
-GRANT SELECT, INSERT, DELETE ON funcionario_agendamento_view TO funcionario_user;
+GRANT SELECT ON funcionario_agendamento_view TO funcionario_user;
 -- Selecionar dados
 SELECT * FROM funcionario_agendamento_view;
-
 
 GRANT SELECT, INSERT, DELETE ON TABLE Agendamento TO funcionario_user;
 GRANT INSERT ON TABLE Cliente TO funcionario_user;
