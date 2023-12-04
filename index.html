@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Formulário</title>
+    <title>Agenda</title>
 </head>
 <body>
     <div id="secaoPessoa" class="card">
@@ -43,6 +43,7 @@
     <div id="secaoPessoa" class="card">
         <label for="usernameFuncionarioConsulta">Digite seu Nome de Usuário:</label>
         <input type="text" id="usernameFuncionarioConsulta" name="usernameFuncionarioConsulta" class="form-control" required>
+        <br><br>
         <label for="senhaPessoaConsulta">Digite sua Senha:</label>
         <input type="password" id="senhaPessoaConsulta" name="senhaPessoaConsulta" class="form-control" required>
         <br><br>
@@ -87,7 +88,11 @@
                 <tr>
                     <th>Data</th>
                     <th>CPF Cliente</th>
+                    <th>Nome do Cliente</th>
+                    <th>Telefone do Cliente</th>
                     <th>ID Procedimento</th>
+                    <th>Nome do Procedimento</th>
+                    <th>Nome do Profissional</th>
                     <th>CPF Profissional</th>
                 </tr>
             </thead>
@@ -121,6 +126,7 @@
 </div>
 
 <script src="script.js"></script>
+
 <script>
     //Variável global para armazenar agendamentos
     var agendamentos = [];

@@ -44,32 +44,39 @@ TABELA DE AGENDAMENTOS
 function adicionarLinhaAgendamento(event) {
   event.preventDefault();
 
+  //Obter referências aos campos do formulário
   var dataHorario = document.getElementById('dataHorario').value;
   var cpfCliente = document.getElementById('cpfCliente').value;
+  var nomeCliente = document.getElementById('nomeCliente').value;
+  var telefoneCliente = document.getElementById('telefoneCliente').value;
   var idProcedimento = document.getElementById('idProcedimento').value;
+  var nomeProcedimento = document.getElementById('nomeProcedimento').value;
   var cpfProfissional = document.getElementById('cpfProfissional').value;
+  var nomeProfissional = document.getElementById('nomeProfissional').value;
 
   //Criar uma nova linha para a tabela de Procedimentos Agendados
-  var tableBody = document.querySelector('#procedimentosAgendados tbody');
+  var tableBody = document.getElementById('procedimentosAgendados').getElementsByTagName('tbody')[0];
+  var newRow = tableBody.insertRow();
 
-  var newRowHTML = `
-    <tr>
+  //Adicionar células com os dados
+  newRow.innerHTML = `
       <td>${dataHorario}</td>
       <td>${cpfCliente}</td>
+      <td>${nomeCliente}</td>
+      <td>${telefoneCliente}</td>
       <td>${idProcedimento}</td>
+      <td>${nomeProcedimento}</td>
+      <td>${nomeProfissional}</td>
       <td>${cpfProfissional}</td>
-    </tr>
   `;
 
-  //Inserir a nova linha no corpo da tabela
-  tableBody.innerHTML += newRowHTML;
-
-  //Limpar os campos do formulário após salvar 
+  //Limpar os campos do formulário após salvar
   document.getElementById('formulario').reset();
 }
 
 //Adicionar um ouvinte de evento ao formulário de agendamento
 document.getElementById('formulario').addEventListener('submit', adicionarLinhaAgendamento);
+
 
 /*
 EXCLUIR AGENDAMENTO
@@ -83,23 +90,30 @@ function salvarDados(event) {
   //Obter referências aos campos do formulário
   var dataHorario = document.getElementById('dataHorario').value;
   var cpfCliente = document.getElementById('cpfCliente').value;
+  var nomeCliente = document.getElementById('nomeCliente').value;
+  var telefoneCliente = document.getElementById('telefoneCliente').value;
   var idProcedimento = document.getElementById('idProcedimento').value;
+  var nomeProcedimento = document.getElementById('nomeProcedimento').value;
   var cpfProfissional = document.getElementById('cpfProfissional').value;
+  var nomeProfissional = document.getElementById('nomeProfissional').value;
 
   //Criar uma nova linha para a tabela de Procedimentos Agendados
   var table = document.querySelector('#procedimentosAgendados tbody');
   var newRow = table.insertRow();
 
-  //Adicionar células com os dados e botão de excluir
   newRow.innerHTML = `
       <td>${dataHorario}</td>
       <td>${cpfCliente}</td>
+      <td>${nomeCliente}</td>
+      <td>${telefoneCliente}</td>
       <td>${idProcedimento}</td>
+      <td>${nomeProcedimento}</td>
+      <td>${nomeProfissional}</td>
       <td>${cpfProfissional}</td>
       <td><button onclick="excluirLinha(this)">Excluir</button></td>
   `;
 
-  //Limpar os campos do formulário após salvar (opcional)
+  //Limpar os campos do formulário após salvar
   document.getElementById('formulario').reset();
 }
 
@@ -168,26 +182,37 @@ function entrarCliente() {
 }
 
 //Função para excluir a linha e registrar a data de exclusão
-function excluirLinha(btn) {
-  var row = btn.parentNode.parentNode; // Obter a linha pai do botão
-  var tableBackup = document.querySelector('#tabelaBackupBody');
-
-  //Criar uma nova linha para a tabela de backup
-  var newRowBackup = tableBackup.insertRow();
-
-  //Copiar os dados da linha principal para a linha de backup
-  for (var i = 0; i < row.cells.length; i++) {
-      var cellBackup = newRowBackup.insertCell(i);
-      cellBackup.textContent = row.cells[i].textContent;
+  function excluirLinha(btn) {
+    var row = btn.closest('tr'); //Obter a linha pai do botão
+    var tableBackup = document.querySelector('#tabelaBackup tbody');
+  
+    //Obter os dados da linha principal
+    var dataHorario = row.cells[0].textContent;
+    var cpfCliente = row.cells[1].textContent;
+    var idProcedimento = row.cells[4].textContent;
+    var cpfProfissional = row.cells[7].textContent;
+  
+    //Criar um objeto com os dados
+    var dadosBackup = {
+      data: dataHorario,
+      cpfCliente: cpfCliente,
+      idProcedimento: idProcedimento,
+      cpfProfissional: cpfProfissional,
+      dataExclusao: new Date().toLocaleString()
+    };
+  
+    //Criar uma nova linha para a tabela de backup
+    var newRowBackup = tableBackup.insertRow();
+  
+    //Adicionar as células com os dados do objeto
+    for (var key in dadosBackup) {
+      var cell = newRowBackup.insertCell();
+      cell.textContent = dadosBackup[key];
+    }
+  
+    //Remover a linha da tabela principal
+    row.parentNode.removeChild(row);
   }
-
-  //Adicionar a data de exclusão
-  var cellDataExclusao = newRowBackup.insertCell(row.cells.length);
-  cellDataExclusao.textContent = new Date().toLocaleString();
-
-  //Remover a linha da tabela principal
-  row.parentNode.removeChild(row);
-}
 
 //Função para esconder elementos
 function esconderElemento(elementoId) {
