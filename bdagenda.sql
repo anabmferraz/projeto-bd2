@@ -15,7 +15,7 @@ CREATE TABLE Procedimento (
 );
 
 CREATE TABLE Agendamento (
-    horario_agendamento TIMETAMP NOT NULL,
+    horario_agendamento TIMESTAMP NOT NULL,
     cpf_cliente VARCHAR(11) REFERENCES Cliente(cpf_cliente),
     cpf_profissional VARCHAR(11) REFERENCES Profissional(cpf_profissional),
     id_procedimento INTEGER REFERENCES Procedimento(id_procedimento)
