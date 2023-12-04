@@ -10,14 +10,14 @@
     <div id="secaoPessoa" class="card">
         <h2>Cliente</h2>
         <h4>Acesse os seus agendamentos</h4>
-        <label for="cpfPessoaConsulta">Digite seu CPF:</label>
-        <input type="text" id="cpfPessoaConsulta" name="cpfPessoaConsulta" class="form-control" required>
-    
+        <label for="usernameClienteConsulta">Digite seu Nome de Usuário:</label>
+        <input type="text" id="usernameClienteConsulta" name="usernameClienteConsulta" class="form-control" required>
+        <br><br>
         <label for="senhaPessoaConsulta">Digite sua Senha:</label>
         <input type="password" id="senhaPessoaConsulta" name="senhaPessoaConsulta" class="form-control" required>
     
         <br><br>
-        <button onclick="entrar()" class="btn btn-primary mt-2">Entrar</button>
+        <button onclick="entrar()" class="btn btn-primary mt-2">Entrar</button> 
     </div>
     
     <!-- Tabela de Agendamentos do Cliente -->
@@ -41,8 +41,8 @@
     
     <h2>Funcionário</h2>
     <div id="secaoPessoa" class="card">
-        <label for="cpfPessoaConsulta">Digite seu CPF:</label>
-        <input type="text" id="cpfPessoaConsulta" name="cpfPessoaConsulta" class="form-control" required>
+        <label for="usernameFuncionarioConsulta">Digite seu Nome de Usuário:</label>
+        <input type="text" id="usernameFuncionarioConsulta" name="usernameFuncionarioConsulta" class="form-control" required>
         <label for="senhaPessoaConsulta">Digite sua Senha:</label>
         <input type="password" id="senhaPessoaConsulta" name="senhaPessoaConsulta" class="form-control" required>
         <br><br>
@@ -119,13 +119,13 @@
 <div>
 
 </div>
-<script src="script.js"></script>
 
+<script src="script.js"></script>
 <script>
-    // Variável global para armazenar agendamentos
+    //Variável global para armazenar agendamentos
     var agendamentos = [];
 
-    // Adicionar ouvintes de eventos para diferentes seções
+    //Adicionar ouvintes de eventos para diferentes seções
     document.getElementById('formulario').addEventListener('submit', salvarDados);
     document.getElementById('secaoPessoaCliente').addEventListener('submit', consultarAgendamentos);
 </script>

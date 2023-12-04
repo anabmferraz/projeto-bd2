@@ -1,69 +1,66 @@
-/* style.css */
-
-body, h1, h2, h3, p, ul, li {
+body, h1, h2, h3, p, ul, li{
   margin: 0;
   padding: 0;
 }
 
-body {
+body{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa; /* Cor de fundo semelhante ao Bootstrap */
+  background-color: #f8f9fa;
 }
 
-.container {
+.container{
   width: 80%;
   margin-top: 20px;
   text-align: center;
 }
 
-h2 {
+h2{
   color: #007bff; 
   margin-bottom: 20px;
 }
 
-form {
+form{
   margin-bottom: 20px;
 }
 
-/* Estilo simples para as tabelas */
-table {
+table{
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
 }
 
-th, td {
-  border: 1px solid #dee2e6; /* Cor da borda semelhante ao Bootstrap */
+th, td{
+  border: 1px solid #dee2e6;
   padding: 8px;
   text-align: left;
 }
 
-th {
-  background-color: #f8f9fa; /* Cor de fundo semelhante ao Bootstrap */
+th{
+  background-color: #f8f9fa; 
 }
 
-#secaoPessoa {
+#secaoPessoa{
   margin-top: 20px;
 }
 
-#secaoPessoa label {
+#secaoPessoa label{
   display: block;
   margin-bottom: 5px;
 }
 
-#cpfPessoaConsulta {
+#cpfPessoaConsulta{
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
   margin-bottom: 10px;
 }
 
-#secaoPessoa button {
+#secaoPessoa button{
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -71,19 +68,19 @@ th {
   cursor: pointer;
 }
 
-#tabelaPessoa {
+#tabelaPessoa{
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
 }
 
-#tabelaPessoa th, #tabelaPessoa td {
+#tabelaPessoa th, #tabelaPessoa td{
   border: 1px solid #dee2e6;
   padding: 8px;
   text-align: left;
 }
 
-.btn, button {
+.btn, button{
   display: inline-block;
   padding: 8px 16px;
   font-size: 14px;
@@ -95,11 +92,11 @@ th {
   cursor: pointer;
 }
 
-.btn:hover, button:hover {
+.btn:hover, button:hover{
   background-color: #0056b3;
 }
 
-.card {
+.card{
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -108,26 +105,26 @@ th {
   margin-bottom: 20px;
 }
 
-.table-excel {
+.table-excel{
   border-collapse: collapse;
   width: 100%;
 }
 
-.table-excel th, .table-excel td {
+.table-excel th, .table-excel td{
   border: 1px solid #ddd; 
   padding: 8px;
   text-align: left;
 }
 
-.table-excel th {
+.table-excel th{
   background-color: #f2f2f2; 
 }
 
-.table-excel td {
+.table-excel td{
   box-shadow: 1px 1px 0px #ddd, -1px -1px 0px #ddd, -1px 1px 0px #ddd, 1px -1px 0px #ddd;
 }
 
-#formulario {
+#formulario{
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -136,19 +133,19 @@ th {
   margin-bottom: 20px;
 }
 
-#formulario label {
+#formulario label{
   display: block;
   margin-bottom: 5px;
 }
 
-#formulario input {
+#formulario input{
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
   margin-bottom: 10px;
 }
 
-#formulario button {
+#formulario button{
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -156,36 +153,34 @@ th {
   cursor: pointer;
 }
 
-#formulario button:hover {
+#formulario button:hover{
   background-color: #0056b3;
 }
 
-#index-h2 a {
+#index-h2 a{
   margin-left: 10%;
   display: inline-block;
   color: #007bff;
   text-decoration: none;
 }
 
-#index-h2 a:hover {
+#index-h2 a:hover{
   margin-left: 10%;
   text-decoration: underline;
 }
 
-.centralizado {
+.centralizado{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-/* style.css */
-
-#agendamentosCliente {
+#agendamentosCliente{
   text-align: center;
 }
 
-#agendamentosCliente table {
+#agendamentosCliente table{
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
@@ -195,21 +190,21 @@ th {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#agendamentosCliente th, #agendamentosCliente td {
+#agendamentosCliente th, #agendamentosCliente td{
   border: 1px solid #dee2e6;
   padding: 8px;
   text-align: center;
 }
 
-#agendamentosCliente th {
+#agendamentosCliente th{
   background-color: #007bff;
   color: #fff;
 }
 
-#agendamentosCliente tbody tr:hover {
+#agendamentosCliente tbody tr:hover{
   background-color: #f8f9fa;
 }
 
-#agendamentosCliente td {
+#agendamentosCliente td{
   box-shadow: 1px 1px 0px #ddd, -1px -1px 0px #ddd, -1px 1px 0px #ddd, 1px -1px 0px #ddd;
 }
