@@ -97,8 +97,12 @@ CREATE INDEX idx_fk_cpf_cliente ON Agendamento(cpf_cliente);
 
 -- Criação do usuário
 CREATE ROLE funcionario_user WITH LOGIN PASSWORD 'funcionario123';
--- Concedendo permissão SELECT na tabela Agendamento
+-- Concedendo permissão DE LEITURA NAS TABELAS
+– SELECT na tabela Agendamento, Cliente, Profissional, Procedimento
 GRANT SELECT ON TABLE Agendamento TO funcionario_user;
+GRANT SELECT ON TABLE Cliente TO funcionario_user;
+GRANT SELECT ON TABLE Profissional TO funcionario_user;
+GRANT SELECT ON TABLE Procedimento TO funcionario_user;
 
 -- Criação da visão
 CREATE OR REPLACE VIEW ViewProcedimentosAgendados AS
@@ -142,12 +146,12 @@ FOR EACH ROW
 EXECUTE FUNCTION insert_proced_agendados();
 
 -- Atribuição de privilégios ao usuário funcionario
-GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario;
+GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
 
+--Criação do user cliente (de apenas leitura)
 CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
+GRANT SELECT ON ViewProcedimentosAgendados TO cliente_user;
 
-GRANT SELECT ON funcionario_agendamento_view TO funcionario_user;
--- Selecionar dados
 SELECT * FROM funcionario_agendamento_view;
 
 GRANT SELECT, INSERT, DELETE ON TABLE Agendamento TO funcionario_user;
