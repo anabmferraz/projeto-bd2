@@ -152,14 +152,5 @@ GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
 CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
 GRANT SELECT ON ViewProcedimentosAgendados TO cliente_user;
 
-SELECT * FROM funcionario_agendamento_view;
-
-GRANT SELECT, INSERT, DELETE ON TABLE Agendamento TO funcionario_user;
-GRANT INSERT ON TABLE Cliente TO funcionario_user;
-CREATE OR REPLACE VIEW funcionario_cliente_view AS
-SELECT * FROM Cliente;
-
-GRANT SELECT, INSERT ON funcionario_cliente_view TO funcionario_user;
-
 
 
