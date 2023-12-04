@@ -105,6 +105,7 @@ CREATE VIEW ViewProcedimentosAgendados AS
 SELECT
     Agendamento.horario_agendamento,
     Cliente.nome_cliente,
+    Cliente.cpf_cliente,
     Profissional.nome_profissional,
     Procedimento.nome_procedimento
 FROM
