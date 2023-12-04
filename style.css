@@ -1,64 +1,215 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body{
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 20px;
-  }
-  
-  h2{
-    color: #333;
-  }
-  
-  form{
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  label{
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-  }
-  
-  input, button{
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button{
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover{
-    background-color: #0056b3;
-  }
+/* style.css */
 
-  #tabelaAgendamentos{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  #tabelaAgendamentos th, #tabelaAgendamentos td{
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  #tabelaAgendamentos th{
-    background-color: #f2f2f2;
-  }
-  
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* Cor de fundo semelhante ao Bootstrap */
+}
+
+.container {
+  width: 80%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+h2 {
+  color: #007bff; 
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+/* Estilo simples para as tabelas */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #dee2e6; /* Cor da borda semelhante ao Bootstrap */
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f8f9fa; /* Cor de fundo semelhante ao Bootstrap */
+}
+
+#secaoPessoa {
+  margin-top: 20px;
+}
+
+#secaoPessoa label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#cpfPessoaConsulta {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+#secaoPessoa button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+#tabelaPessoa {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+#tabelaPessoa th, #tabelaPessoa td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: left;
+}
+
+.btn, button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn:hover, button:hover {
+  background-color: #0056b3;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.table-excel {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-excel th, .table-excel td {
+  border: 1px solid #ddd; 
+  padding: 8px;
+  text-align: left;
+}
+
+.table-excel th {
+  background-color: #f2f2f2; 
+}
+
+.table-excel td {
+  box-shadow: 1px 1px 0px #ddd, -1px -1px 0px #ddd, -1px 1px 0px #ddd, 1px -1px 0px #ddd;
+}
+
+#formulario {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#formulario label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#formulario input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+#formulario button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+#formulario button:hover {
+  background-color: #0056b3;
+}
+
+#index-h2 a {
+  margin-left: 10%;
+  display: inline-block;
+  color: #007bff;
+  text-decoration: none;
+}
+
+#index-h2 a:hover {
+  margin-left: 10%;
+  text-decoration: underline;
+}
+
+.centralizado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* style.css */
+
+#agendamentosCliente {
+  text-align: center;
+}
+
+#agendamentosCliente table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#agendamentosCliente th, #agendamentosCliente td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: center;
+}
+
+#agendamentosCliente th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+#agendamentosCliente tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+#agendamentosCliente td {
+  box-shadow: 1px 1px 0px #ddd, -1px -1px 0px #ddd, -1px 1px 0px #ddd, 1px -1px 0px #ddd;
+}

@@ -1,61 +1,195 @@
-document.getElementById("botao").addEventListener("click", function (event) {
+
+/////////
+//PARTE DE SALVAR DADOS A PARTIR DO AGENDAMENTO
+/////////
+
+// Função chamada ao enviar o formulário
+function salvarDados(event) {
+  // Evitar o comportamento padrão de recarregar a página
   event.preventDefault();
 
-  var cpfCliente = document.getElementById("cpf_cliente").value;
-  var nomeCliente = document.getElementById("nome_cliente").value;
-  var telefoneCliente = document.getElementById("telefone_cliente").value;
-  var idProcedimento = document.getElementById("id_procedimento").value;
-  var nomeProcedimento = document.getElementById("nome_procedimento").value;
-  var cpfProfissional = document.getElementById("cpf_profissional").value;
-  var nomeProfissional = document.getElementById("nome_profissional").value;
-  var data = document.getElementById("data").value;
+  // Obter referências aos campos do formulário
+  var dataHorario = document.getElementById('dataHorario').value;
+  var cpfCliente = document.getElementById('cpfCliente').value;
+  var nomeCliente = document.getElementById('nomeCliente').value;
+  var telefoneCliente = document.getElementById('telefoneCliente').value;
+  var idProcedimento = document.getElementById('idProcedimento').value;
+  var nomeProcedimento = document.getElementById('nomeProcedimento').value;
+  var cpfProfissional = document.getElementById('cpfProfissional').value;
+  var nomeProfissional = document.getElementById('nomeProfissional').value;
 
-  var agendamento = {
-    data: data,
-    cpfCliente: cpfCliente,
-    nomeCliente: nomeCliente,
-    telefoneCliente: telefoneCliente,
-    idProcedimento: idProcedimento,
-    nomeProcedimento: nomeProcedimento,
-    cpfProfissional: cpfProfissional,
-    nomeProfissional: nomeProfissional,
+  // Criar um objeto com os dados
+  var dados = {
+      dataHorario: dataHorario,
+      cpfCliente: cpfCliente,
+      nomeCliente: nomeCliente,
+      telefoneCliente: telefoneCliente,
+      idProcedimento: idProcedimento,
+      nomeProcedimento: nomeProcedimento,
+      cpfProfissional: cpfProfissional,
+      nomeProfissional: nomeProfissional
   };
 
-  fetch("http://localhost:8080", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(agendamento),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Agendamento inserido com sucesso:", data);
+  // Exemplo: Imprimir os dados no console (pode ser substituído pelo envio para um servidor)
+  console.log('Dados a serem salvos:', dados);
 
-      fetch("http://localhost:8080/agendamentos")
-        .then((response) => response.json())
-        .then((data) => {
-          atualizarTabela(data);
-        })
-        .catch((error) =>
-          console.error("Erro ao obter agendamentos após a inserção:", error)
-        );
-    })
-    .catch((error) => console.error("Erro ao inserir agendamento:", error));
-});
+  // Limpar os campos do formulário após salvar (opcional)
+  document.getElementById('formulario').reset();
+}
 
-function atualizarTabela(data) {
-  tabelaAgendamentos.innerHTML = "";
+// Adicionar um ouvinte de evento ao formulário
+document.getElementById('formulario').addEventListener('submit', salvarDados);
 
-  data.forEach((agendamento) => {
-    var row = tabelaAgendamentos.insertRow();
-    row.insertCell(0).innerText = agendamento.horario_agendamento;
-    row.insertCell(1).innerText = agendamento.cpf_cliente;
-    row.insertCell(2).innerText = agendamento.nome_cliente;
-    row.insertCell(3).innerText = agendamento.telefone_cliente;
-    row.insertCell(4).innerText = agendamento.id_procedimento;
-    row.insertCell(5).innerText = agendamento.nome_procedimento;
-    row.insertCell(6).innerText = agendamento.cpf_profissional;
-    row.insertCell(7).innerText = agendamento.nome_profissional;
-  });
+/////////
+//TABELA DE AGENDAMENTOS 
+/////////
+
+// Função chamada ao enviar o formulário
+function salvarDados(event) {
+  // Evitar o comportamento padrão de recarregar a página
+  event.preventDefault();
+
+  // Obter referências aos campos do formulário
+  var dataHorario = document.getElementById('dataHorario').value;
+  var cpfCliente = document.getElementById('cpfCliente').value;
+  var idProcedimento = document.getElementById('idProcedimento').value;
+  var cpfProfissional = document.getElementById('cpfProfissional').value;
+
+  // Criar uma nova linha para a tabela de Procedimentos Agendados
+  var tableBody = document.querySelector('#procedimentosAgendados tbody');
+  var newRow = tableBody.insertRow(tableBody.rows.length);
+
+  // Criar células e adicionar os dados
+  var cellDataHorario = newRow.insertCell(0);
+  var cellCpfCliente = newRow.insertCell(1);
+  var cellIdProcedimento = newRow.insertCell(2);
+  var cellCpfProfissional = newRow.insertCell(3);
+
+  cellDataHorario.appendChild(document.createTextNode(dataHorario));
+  cellCpfCliente.appendChild(document.createTextNode(cpfCliente));
+  cellIdProcedimento.appendChild(document.createTextNode(idProcedimento));
+  cellCpfProfissional.appendChild(document.createTextNode(cpfProfissional));
+
+  // Limpar os campos do formulário após salvar (opcional)
+  document.getElementById('formulario').reset();
+}
+
+// Adicionar um ouvinte de evento ao formulário
+document.getElementById('formulario').addEventListener('submit', salvarDados);
+
+///////
+//EXCLUIR AGENDAMENTO
+////////
+
+// Função chamada ao enviar o formulário
+function salvarDados(event) {
+  // Evitar o comportamento padrão de recarregar a página
+  event.preventDefault();
+
+  // Obter referências aos campos do formulário
+  var dataHorario = document.getElementById('dataHorario').value;
+  var cpfCliente = document.getElementById('cpfCliente').value;
+  var idProcedimento = document.getElementById('idProcedimento').value;
+  var cpfProfissional = document.getElementById('cpfProfissional').value;
+
+  // Criar uma nova linha para a tabela de Procedimentos Agendados
+  var table = document.querySelector('#procedimentosAgendados tbody');
+  var newRow = table.insertRow();
+
+  // Adicionar células com os dados e botão de excluir
+  newRow.innerHTML = `
+      <td>${dataHorario}</td>
+      <td>${cpfCliente}</td>
+      <td>${idProcedimento}</td>
+      <td>${cpfProfissional}</td>
+      <td><button onclick="excluirLinha(this)">Excluir</button></td>
+  `;
+
+  // Limpar os campos do formulário após salvar (opcional)
+  document.getElementById('formulario').reset();
+}
+
+// Função para excluir a linha
+function excluirLinha(btn) {
+  var row = btn.parentNode.parentNode; // Obter a linha pai do botão
+  row.parentNode.removeChild(row); // Remover a linha da tabela
+}
+
+// Adicionar um ouvinte de evento ao formulário
+document.getElementById('formulario').addEventListener('submit', salvarDados);
+
+//////
+//TABELA DE BACKUP 
+//////
+
+// Função para excluir a linha
+function excluirLinha(btn) {
+  var row = btn.parentNode.parentNode; // Obter a linha pai do botão
+  var tableBackup = document.querySelector('#tabelaBackup tbody');
+
+  // Criar uma nova linha para a tabela de backup
+  var newRowBackup = tableBackup.insertRow();
+
+  // Copiar os dados da linha principal para a linha de backup
+  for (var i = 0; i < row.cells.length - 1; i++) {
+      var cellBackup = newRowBackup.insertCell(i);
+      cellBackup.textContent = row.cells[i].textContent;
+  }
+
+  // Remover a linha da tabela principal
+  row.parentNode.removeChild(row);
+}
+
+// Função chamada ao enviar o formulário de login do cliente
+function entrarCliente() {
+  var cpfConsulta = document.getElementById('cpfPessoaConsulta').value;
+  var senhaConsulta = document.getElementById('senhaPessoaConsulta').value;
+
+  // Simulação de autenticação (substitua pela lógica real)
+  if (senhaConsulta === '10') {
+      // Filtrar agendamentos com base no CPF do cliente
+      var agendamentosFiltrados = agendamentos.filter(function (agendamento) {
+          return agendamento.cpfCliente === cpfConsulta;
+      });
+
+      // Preencher a tabela de agendamentos do cliente
+      var tableCliente = document.querySelector('#agendamentosCliente tbody');
+      tableCliente.innerHTML = '';
+
+      for (var i = 0; i < agendamentosFiltrados.length; i++) {
+          var agendamento = agendamentosFiltrados[i];
+          var newRowCliente = tableCliente.insertRow(tableCliente.rows.length);
+
+          newRowCliente.innerHTML = `
+              <td>${agendamento.data}</td>
+              <td>${agendamento.cpfCliente}</td>
+              <td>${agendamento.idProcedimento}</td>
+              <td>${agendamento.cpfProfissional}</td>
+          `;
+      }
+  } else {
+      alert('CPF ou senha incorretos.');
+  }
+}
+
+// Função para excluir a linha e registrar a data de exclusão
+function excluirLinha(btn) {
+  var row = btn.parentNode.parentNode; // Obter a linha pai do botão
+  var tableBackup = document.querySelector('#tabelaBackupBody');
+
+  // Criar uma nova linha para a tabela de backup
+  var newRowBackup = tableBackup.insertRow();
+
+  // Copiar os dados da linha principal para a linha de backup
+  for (var i = 0; i < row.cells.length; i++) {
+      var cellBackup = newRowBackup.insertCell(i);
+      cellBackup.textContent = row.cells[i].textContent;
+  }
+
+  // Adicionar a data de exclusão
+  var cellDataExclusao = newRowBackup.insertCell(row.cells.length);
+  cellDataExclusao.textContent = new Date().toLocaleString();
+
+  // Remover a linha da tabela principal
+  row.parentNode.removeChild(row);
 }

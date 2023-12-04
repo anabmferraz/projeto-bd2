@@ -4,63 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Minha Agenda</title>
+    <title>Formulário</title>
 </head>
 <body>
-    <h2>Agendamento</h2>
-    <form method="post">
-
-      <!-- Campo de Horario e Data -->
-      <label for="data">Data e Horário do Agendamento:</label>
-      <input type="datetime-local" id="data" name="data" required><br>
-
-      <!-- Campos do Cliente -->
-      <label for="cpf_cliente">CPF do Cliente:</label>
-      <input type="text" id="cpf_cliente" name="cpf_cliente" required><br>
-  
-      <label for="nome_cliente">Nome do Cliente:</label>
-      <input type="text" id="nome_cliente" name="nome_cliente" required><br>
-  
-      <label for="telefone_cliente">Telefone do Cliente:</label>
-      <input type="text" id="telefone_cliente" name="telefone_cliente" required><br>
-  
-      <!-- Campos do Procedimento -->
-      <label for="id_procedimento">ID do Procedimento:</label>
-      <input type="text" id="id_procedimento" name="id_procedimento" required><br>
-  
-      <label for="nome_procedimento">Nome do Procedimento:</label>
-      <input type="text" id="nome_procedimento" name="nome_procedimento" required><br>
-  
-      <!-- Campos do Profissional -->
-      <label for="cpf_profissional">CPF do Profissional:</label>
-      <input type="text" id="cpf_profissional" name="cpf_profissional" required><br>
-  
-      <label for="nome_profissional">Nome do Profissional:</label>
-      <input type="text" id="nome_profissional" name="nome_profissional" required><br>
-  
-      <!-- Botão de Salvar -->
-      <button id="botao" type="submit">Salvar</button>
-    </form>
+    <div id="secaoPessoa" class="card">
+        <h2>Cliente</h2>
+        <h4>Acesse os seus agendamentos</h4>
+        <label for="cpfPessoaConsulta">Digite seu CPF:</label>
+        <input type="text" id="cpfPessoaConsulta" name="cpfPessoaConsulta" class="form-control" required>
     
-    <!-- Tabela para mostrar os agendamentos -->
-<table id="tabelaAgendamentos">
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>CPF Cliente</th>
-        <th>Nome Cliente</th>
-        <th>Telefone Cliente</th>
-        <th>ID Procedimento</th>
-        <th>Nome Procedimento</th>
-        <th>CPF Profissional</th>
-        <th>Nome Profissional</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Dados da tabela  -->
-    </tbody>
-  </table>
-  
-</body>
+        <label for="senhaPessoaConsulta">Digite sua Senha:</label>
+        <input type="password" id="senhaPessoaConsulta" name="senhaPessoaConsulta" class="form-control" required>
+    
+        <br><br>
+        <button onclick="entrar()" class="btn btn-primary mt-2">Entrar</button>
+    </div>
+    
+    <!-- Tabela de Agendamentos do Cliente -->
+    <div id="agendamentosCliente" class="card centralizado">
+        <h2>Agendamentos</h2>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Data</th>
+                    <th>CPF Cliente</th>
+                    <th>ID Procedimento</th>
+                    <th>CPF Profissional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Conteúdo da tabela será preenchido dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <h2>Funcionário</h2>
+    <div id="secaoPessoa" class="card">
+        <label for="cpfPessoaConsulta">Digite seu CPF:</label>
+        <input type="text" id="cpfPessoaConsulta" name="cpfPessoaConsulta" class="form-control" required>
+        <label for="senhaPessoaConsulta">Digite sua Senha:</label>
+        <input type="password" id="senhaPessoaConsulta" name="senhaPessoaConsulta" class="form-control" required>
+        <br><br>
+        <button onclick="entrar()" class="btn btn-primary mt-2">Entrar</button>
+    </div>
+</div>
+    <!-- Formulário -->
+    <form action="#" method="post" id="formulario" class="card">
+        <h2>Formulário</h2>
+        <label for="dataHorario">Data e Horário:</label>
+        <input type="datetime-local" id="dataHorario" name="dataHorario" required><br>
+
+        <label for="cpfCliente">CPF do Cliente:</label>
+        <input type="text" id="cpfCliente" name="cpfCliente" required><br>
+
+        <label for="nomeCliente">Nome do Cliente:</label>
+        <input type="text" id="nomeCliente" name="nomeCliente" required><br>
+
+        <label for="telefoneCliente">Telefone do Cliente:</label>
+        <input type="tel" id="telefoneCliente" name="telefoneCliente" required><br>
+
+        <label for="idProcedimento">ID do Procedimento:</label>
+        <input type="text" id="idProcedimento" name="idProcedimento" required><br>
+
+        <label for="nomeProcedimento">Nome do Procedimento:</label>
+        <input type="text" id="nomeProcedimento" name="nomeProcedimento" required><br>
+
+        <label for="cpfProfissional">CPF do Profissional:</label>
+        <input type="text" id="cpfProfissional" name="cpfProfissional" required><br>
+
+        <label for="nomeProfissional">Nome do Profissional:</label>
+        <input type="text" id="nomeProfissional" name="nomeProfissional" required><br>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+
+    <!-- Tabela de Agendamentos Atuais -->
+    <div id="procedimentosAgendados" class="card">
+        <h2>Procedimentos Agendados</h2>
+        <table class="table table-excel">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>CPF Cliente</th>
+                    <th>ID Procedimento</th>
+                    <th>CPF Profissional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Conteúdo da tabela -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tabela de Agendamentos Excluídos (Backup) -->
+    <div id="tabelaBackup" class="card">
+        <h2>Agendamentos Excluídos (Backup)</h2>
+        <table class="table table-excel">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>CPF Cliente</th>
+                    <th>ID Procedimento</th>
+                    <th>CPF Profissional</th>
+                    <th>Data de Exclusão</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaBackupBody">
+                <!-- Conteúdo da tabela -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+
+</div>
 <script src="script.js"></script>
+
+<script>
+    // Variável global para armazenar agendamentos
+    var agendamentos = [];
+
+    // Adicionar ouvintes de eventos para diferentes seções
+    document.getElementById('formulario').addEventListener('submit', salvarDados);
+    document.getElementById('secaoPessoaCliente').addEventListener('submit', consultarAgendamentos);
+</script>
+
+</body>
 </html>
