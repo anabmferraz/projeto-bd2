@@ -147,6 +147,12 @@ EXECUTE FUNCTION insert_proced_agendados();
 -- Atribuição de privilégios ao usuário funcionario
 GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
 
+--Atribuição de privilégio de excluir da tabela agendamento
+GRANT DELETE ON TABLE Agendamento TO funcionario_user;
+
+--Atribuição de privilégio de executar a trigger de backup
+GRANT EXECUTE ON FUNCTION agendamento_backup_trigger() TO funcionario_user;
+
 --Criação do user cliente (de apenas leitura)
 CREATE ROLE cliente_user WITH PASSWORD 'cliente123';
 GRANT SELECT ON ViewProcedimentosAgendados TO cliente_user;
