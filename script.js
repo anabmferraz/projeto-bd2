@@ -8,15 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
       listaAgendamentos.forEach(function (agendamento) {
         var row = tabelaAgendamentos.insertRow();
-        row.insertCell(0).innerText = agendamento.horario; // Campo de horário
-        row.insertCell(1).innerText = agendamento.data; // Campo de data
-        row.insertCell(2).innerText = agendamento.cpfCliente;
-        row.insertCell(3).innerText = agendamento.nomeCliente;
-        row.insertCell(4).innerText = agendamento.telefoneCliente;
-        row.insertCell(5).innerText = agendamento.idProcedimento;
-        row.insertCell(6).innerText = agendamento.nomeProcedimento;
-        row.insertCell(7).innerText = agendamento.cpfProfissional;
-        row.insertCell(8).innerText = agendamento.nomeProfissional;
+        row.insertCell(0).innerText = agendamento.data; 
+        row.insertCell(1).innerText = agendamento.cpfCliente;
+        row.insertCell(2).innerText = agendamento.nomeCliente;
+        row.insertCell(3).innerText = agendamento.telefoneCliente;
+        row.insertCell(4).innerText = agendamento.idProcedimento;
+        row.insertCell(5).innerText = agendamento.nomeProcedimento;
+        row.insertCell(6).innerText = agendamento.cpfProfissional;
+        row.insertCell(7).innerText = agendamento.nomeProfissional;
       });
     }
   
@@ -30,11 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
       var nomeProcedimento = document.getElementById('nome_procedimento').value;
       var cpfProfissional = document.getElementById('cpf_profissional').value;
       var nomeProfissional = document.getElementById('nome_profissional').value;
-      var horario = document.getElementById('horario').value; 
       var data = document.getElementById('data').value; 
   
       var agendamento = {
-        horario: horario, 
         data: data, 
         cpfCliente: cpfCliente,
         nomeCliente: nomeCliente,
@@ -44,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         cpfProfissional: cpfProfissional,
         nomeProfissional: nomeProfissional
       };
-      
+
       listaAgendamentos.push(agendamento);
 
       formulario.reset();
