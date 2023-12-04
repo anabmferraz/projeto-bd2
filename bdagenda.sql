@@ -1,4 +1,4 @@
-CREATE TABLE Cliente (
+nsCREATE TABLE Cliente (
     cpf_cliente VARCHAR(11) PRIMARY KEY,
     nome_cliente VARCHAR(100) NOT NULL,
     telefone_cliente VARCHAR(15) NOT NULL
@@ -144,7 +144,7 @@ INSTEAD OF INSERT ON ViewProcedimentosAgendados
 FOR EACH ROW
 EXECUTE FUNCTION insert_proced_agendados();
 
--- Atribuição de privilégios ao usuário funcionario
+-- Atribuição de privilégios de inserir na view ao usuário funcionario
 GRANT INSERT, SELECT ON ViewProcedimentosAgendados TO funcionario_user;
 
 --Atribuição de privilégio de excluir da tabela agendamento
