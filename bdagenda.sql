@@ -61,7 +61,7 @@ CREATE OR REPLACE FUNCTION backup_transaction()
 RETURNS TRIGGER AS $$
 BEGIN
 	-- Chamar a função de backup_agendamento usando EXECUTE FUNCTION
-	EXECUTE FUNCTION backup_agendamento;
+	PERFORM FUNCTION backup_agendamento;
 	-- Deletar o registro da tabela Agendamento
 	DELETE FROM Agendamento WHERE horario_agendamento = OLD.horario_agendamento;
 	-- Commit da transação
