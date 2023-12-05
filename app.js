@@ -1,9 +1,10 @@
+// importar os módulos, express é pra aplicação web
 const express = require("express");
-const bodyParser = require("body-parser");
-const db = require("./db");
+const bodyParser = require("body-parser"); // lida com json
+const db = require("./db"); // interagir com banco de dados
 
 const app = express();
-const port = 8080;
+const port = 8080; // porta pra saida
 
 app.use(express.static("projeto-bd2"));
 app.use(bodyParser.json());
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 const senhaClientes = "cliente123";
 const senhaFuncionarios = "funcionario123";
 
-//verificar a autenticação e papel do usuário
+//verificar a autenticação do usuário
 app.use((req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
   }
 });
 
+//verifica se o cliente é autenticado 
 app.get("/agendamentos/cliente", async (req, res) => {
   if (!req.usuarioAutenticado || req.usuarioAutenticado.papel !== "cliente") {
     return res.status(401).json({ mensagem: "Acesso não autorizado" });
@@ -54,6 +56,7 @@ app.get("/agendamentos/cliente", async (req, res) => {
   }
 });
 
+// autentica o usuário e recebe a senha e o user
 app.post("/autenticar", (req, res) => {
   const { usuario, senha } = req.body;
 
